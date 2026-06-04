@@ -1,0 +1,35 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "whu": "https://en.whu.edu.cn/#",
+    "schema": "https://schema.org/",
+    "name": "schema:name",
+    "alternateName": "schema:alternateName",
+    "description": "schema:description",
+    "url": "schema:url",
+    "foundingDate": "schema:foundingDate",
+    "location": "schema:location",
+    "sameAs": "schema:sameAs",
+    "Organization": "schema:CollegeOrUniversity",
+    "CollegeOrUniversity": "schema:CollegeOrUniversity",
+    "api": {
+      "@id": "whu:api",
+      "@container": "@set"
+    },
+    "humanURL": "schema:url",
+    "baseURL": "schema:url"
+  },
+  "@type": "CollegeOrUniversity",
+  "@id": "https://en.whu.edu.cn/#organization",
+  "name": "Wuhan University",
+  "alternateName": "WHU",
+  "url": "https://en.whu.edu.cn",
+  "foundingDate": "1893",
+  "location": "Wuhan, Hubei, China",
+  "description": "Comprehensive public research university under the Ministry of Education of China. No public, documented institutional API endpoints could be confirmed.",
+  "sameAs": [
+    "https://github.com/WHUIR",
+    "https://www.linkedin.com/school/wuhan-university/",
+    "https://x.com/WHU_1893"
+  ]
+}
