@@ -1,0 +1,67 @@
+---
+aid: wuhan
+name: Wuhan University
+description: >-
+  Wuhan University (WHU), founded in 1893 and located in Wuhan, Hubei, China, is
+  one of China's oldest and most prestigious comprehensive research universities,
+  ranked #194 in the QS World University Rankings 2025. It operates under the
+  Ministry of Education of China and is recognized for surveying and remote
+  sensing, geoinformatics, and the sciences. WHU does not publish a centralized,
+  publicly documented developer or API portal; its official web presence
+  (en.whu.edu.cn) is informational only. Discoverable developer activity is
+  concentrated in research-group GitHub organizations rather than institutional
+  API products. No public, documented institutional API endpoints could be
+  confirmed at the time of review.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/wuhan/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - China
+  - Open Source
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: wuhan:none
+    name: No Public Documented API
+    description: >-
+      As of this review, Wuhan University publishes no centralized, publicly
+      documented developer portal or API. The official website is informational
+      only and library/repository OAI-PMH or discovery API endpoints could not
+      be confirmed as publicly reachable. Public developer activity is limited
+      to research-group source-code repositories on GitHub (e.g., the
+      Information Retrieval Group, WHUIR), which host academic research code
+      rather than institutional service APIs.
+    humanURL: https://en.whu.edu.cn
+    tags: [ Education, University, No API ]
+    properties:
+      - type: Documentation
+        url: https://en.whu.edu.cn
+      - type: GitHub
+        url: https://github.com/WHUIR
+common:
+  - type: Website
+    url: https://en.whu.edu.cn
+  - type: GitHub
+    url: https://github.com/WHUIR
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/wuhan-university/
+  - type: Twitter
+    url: https://x.com/WHU_1893
+  - type: Plans
+    url: plans/wuhan-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/wuhan-rate-limits.yml
+  - type: FinOps
+    url: finops/wuhan-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

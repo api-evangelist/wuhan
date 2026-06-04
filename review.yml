@@ -1,0 +1,34 @@
+---
+name: Wuhan University
+description: Wuhan University public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/wuhan/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 1
+    summary: >-
+      Verified the official English website (en.whu.edu.cn, HTTP 200) is
+      informational only with no developer portal, API documentation, or open
+      data links. Found no centralized institutional API. Confirmed a real
+      research-group GitHub organization (WHUIR, HTTP 200, ~40 repos of academic
+      code) and additional group orgs (WHUFT, WHU-USI3DV), but these are research
+      code, not institutional service APIs. Confirmed LinkedIn school page and
+      official X/Twitter account exist. No endpoints, base URLs, or auth flows
+      were fabricated; no public documented API could be confirmed.
+    endpoints:
+      - url: https://en.whu.edu.cn
+        status: 200
+        note: Official English website, informational only, no developer/API links.
+      - url: https://github.com/WHUIR
+        status: 200
+        note: Wuhan University Information Retrieval Group GitHub org; research code only.
+      - url: https://www.linkedin.com/school/wuhan-university/
+        status: 999
+        note: Official LinkedIn school page exists; 999 is LinkedIn bot-block, page is live.
+      - url: https://x.com/WHU_1893
+        status: 200
+        note: Official Wuhan University X/Twitter account.
+      - url: http://en.lib.whu.edu.cn/
+        status: 0
+        note: Library English site did not resolve (connection refused) during review.
