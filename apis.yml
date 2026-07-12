@@ -46,6 +46,8 @@ apis:
       - type: GitHub
         url: https://github.com/WHUIR
 common:
+  - type: DomainSecurity
+    url: security/wuhan-domain-security.yml
   - type: Website
     url: https://en.whu.edu.cn
   - type: GitHub
