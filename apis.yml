@@ -1,4 +1,3 @@
----
 aid: wuhan
 name: Wuhan University
 description: >-
@@ -13,9 +12,21 @@ description: >-
   API products. No public, documented institutional API endpoints could be
   confirmed at the time of review.
 type: Index
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+    - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/wuhan.png
 url: https://raw.githubusercontent.com/api-evangelist/wuhan/refs/heads/main/apis.yml
 tags:
   - Education
@@ -25,26 +36,9 @@ tags:
   - China
   - Open Source
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-07-25'
 specificationVersion: '0.19'
-apis:
-  - aid: wuhan:none
-    name: No Public Documented API
-    description: >-
-      As of this review, Wuhan University publishes no centralized, publicly
-      documented developer portal or API. The official website is informational
-      only and library/repository OAI-PMH or discovery API endpoints could not
-      be confirmed as publicly reachable. Public developer activity is limited
-      to research-group source-code repositories on GitHub (e.g., the
-      Information Retrieval Group, WHUIR), which host academic research code
-      rather than institutional service APIs.
-    humanURL: https://en.whu.edu.cn
-    tags: [ Education, University, No API ]
-    properties:
-      - type: Documentation
-        url: https://en.whu.edu.cn
-      - type: GitHub
-        url: https://github.com/WHUIR
+apis: []
 common:
   - type: DomainSecurity
     url: security/wuhan-domain-security.yml
