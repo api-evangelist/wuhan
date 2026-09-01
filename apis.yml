@@ -1,21 +1,32 @@
 aid: wuhan
 name: Wuhan University
+x-type: university
+x-category: Public Research University
 description: >-
-  Wuhan University (WHU), founded in 1893 and located in Wuhan, Hubei, China, is
-  one of China's oldest and most prestigious comprehensive research universities,
-  ranked #194 in the QS World University Rankings 2025. It operates under the
-  Ministry of Education of China and is recognized for surveying and remote
-  sensing, geoinformatics, and the sciences. WHU does not publish a centralized,
-  publicly documented developer or API portal; its official web presence
-  (en.whu.edu.cn) is informational only. Discoverable developer activity is
-  concentrated in research-group GitHub organizations rather than institutional
-  API products. No public, documented institutional API endpoints could be
-  confirmed at the time of review.
+  Wuhan University (武汉大学, WHU), founded in 1893 in Wuhan, Hubei, is a comprehensive public
+  research university under China's Ministry of Education, a Double First-Class and former Project
+  985 institution, and is strongest in surveying, remote sensing, geoinformatics and GNSS. It
+  operates no public developer portal, no open data portal and no documented public API: api.,
+  data., open. and developer. under whu.edu.cn do not resolve, /.well-known/apis.json, llms.txt,
+  security.txt, robots.txt and sitemap.xml all return 404 on both the Chinese and English sites,
+  and no OpenAPI, AsyncAPI or GraphQL contract exists anywhere in this profile. What it does
+  operate, on its own CERNET address space, is an identity estate and a bulk research-data
+  archive. Wuhan University runs a Shibboleth SAML 2.0 identity provider registered in CARSI,
+  China's national research-and-education federation and a production eduGAIN member, and a
+  campus CAS single-sign-on server that publishes a live OpenID Connect discovery document — the
+  only conforming, self-describing, machine-readable contract WHU serves to the anonymous public,
+  and it is the SSO product's shape rather than WHU engineering. It also operates one of the IGS
+  Global Data Centers: the International GNSS Service's own data-access page names Wuhan
+  University and links ftp://igs.gnsswhu.cn/, an anonymously listable archive of GPS, BDS, MGEX,
+  high-rate and IERS products. Library discovery is an Ex Libris Aleph tenancy on a WHU host, and
+  the registrar system is behind campus SSO. The institution's only evidenced education-regime
+  conformance is SAML and Shibboleth; it is not a DataCite or Crossref depositing member, and no
+  institution-operated OAI-PMH endpoint was found.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
-  commercial: true
+  commercial: false
   callable_host: false
   label: Hosted service · you call their endpoint
   confidence: medium
@@ -25,57 +36,397 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: institutional
   trial: false
   try_now: false
   public: false
-  label: Free
-  confidence: medium
+  label: Free · Institutional affiliation or federation membership required
+  confidence: high
   source:
-    - plans
-  generated: '2026-07-22'
+  - identity-federation
+  - plans
+  generated: '2026-09-01'
   method: derived
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/wuhan.png
 url: https://raw.githubusercontent.com/api-evangelist/wuhan/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
-  - University
-  - Research
-  - China
-  - Open-Source
+- Education
+- Higher Education
+- University
+- Research
+- China
+- Identity Federation
+- Single Sign-On
+- Research Data
+- GNSS
+- Library
+- Open-Source
 tags_raw:
-  - Education
-  - Higher Education
-  - University
-  - Research
-  - China
-  - Open Source
+- Education
+- Higher Education
+- University
+- Research
+- China
+- Identity Federation
+- Single Sign-On
+- Research Data
+- GNSS
+- Library
+- Open Source
 created: '2026-06-03'
-modified: '2026-07-25'
+modified: '2026-09-01'
 specificationVersion: '0.23'
-apis: []
+apis:
+- aid: wuhan:shibboleth-idp
+  name: Wuhan University Shibboleth Identity Provider (SAML 2.0)
+  description: >-
+    WHU's federated login, published as a SAML 2.0 EntityDescriptor at
+    https://idp.whu.edu.cn/idp/shibboleth (HTTP 200, application/xml, 14,864 bytes). Declares
+    HTTP-Redirect, HTTP-POST and POST-SimpleSign SSO bindings, SOAP attribute query on port 8443,
+    and a shibmd:Scope of whu.edu.cn. The entity is registered in CARSI, China's national R&E
+    identity federation, as 武汉大学 since 2024-12-10 with production status, and CARSI has been a
+    production eduGAIN member since 2019-06-18. The SSO handler answers HTTP 400 to a request
+    carrying no SAMLRequest, which is a live protocol endpoint rather than a static page. The
+    metadata DOCUMENT is defective and this profile says so: it is the un-customized template
+    Shibboleth ships, it still carries the "This is example metadata only" banner and
+    validUntil="2019-10-31", its Organization and ContactPerson blocks are commented out, and
+    three SingleLogoutService elements use an undeclared md: prefix pointing at the placeholder
+    host idp.xxx.edu.cn — so the published document is namespace-ill-formed. It is well-formed XML
+    1.0, but every namespace-aware parser fails on it: xmllint reports "Namespace prefix md on
+    SingleLogoutService is not defined" at lines 131-133, and expat-based parsers raise "unbound
+    prefix".
+  humanURL: https://idp.whu.edu.cn/idp/shibboleth
+  baseURL: https://idp.whu.edu.cn/idp/
+  tags:
+  - Identity Federation
+  - SAML
+  - Shibboleth
+  - Single Sign-On
+  properties:
+  - type: IdentityFederation
+    url: https://idp.whu.edu.cn/idp/shibboleth
+  - type: Metadata
+    url: identity-federation/wuhan-idp-saml-metadata.xml
+  - type: Conformance
+    url: conformance/wuhan-conformance.yml
+  x-operator: institution
+  x-operator-basis: >-
+    idp.whu.edu.cn resolves to 115.156.123.26 with no CNAME off institutional infrastructure.
+    APNIC whois gives inetnum 115.156.0.0 - 115.157.255.255, netname WHR-CERNET, "China Education
+    and Research Network / Wuhan Regional Network" — the CERNET regional allocation WHU's campus
+    network sits in. No managed-IdP CNAME pattern (contrast idp.monash.edu.au -> idp-cname.aaf.edu.au
+    on Amazon address space) and no cloud-vendor hosting.
+- aid: wuhan:cas-sso
+  name: Wuhan University Campus Single Sign-On (CAS / OpenID Connect / SAML)
+  description: >-
+    The campus authentication server at cas.whu.edu.cn/authserver, which every institutional
+    application redirects into, running the Wisedu CAS distribution. It publishes an OpenID
+    Connect discovery document at /authserver/oidc/.well-known/openid-configuration (HTTP 200,
+    application/json, 1,340 bytes) with a live JWKS, authorization, token, userinfo, introspection,
+    revocation and registration endpoints; answers the CAS 2.0/3.0 ticket-validation protocol at
+    /authserver/serviceValidate and /authserver/p3/serviceValidate in the cas:serviceResponse XML
+    shape; and serves a well-formed SAML 2.0 EntityDescriptor at /authserver/idp/metadata under
+    entityID http://auth.whu.edu.cn/authserver on a WHU-specific certificate (CN=auth.whu.edu.cn,
+    issued 2025-01-17). This is the only conforming machine-readable contract WHU serves to the
+    anonymous public, and it authenticates people into WHU applications — it fronts no public data
+    API. The discovery document is the Wisedu product's standard shape, not WHU engineering, so no
+    OpenAPI has been derived from it. Three weaknesses it declares about itself:
+    id_token_signing_alg_values_supported includes "none", grant_types_supported includes the
+    deprecated resource-owner password grant, and no PKCE support is advertised. The SAML metadata
+    carries the vendor's unedited defaults — shibmd:Scope "wisedu.com" instead of whu.edu.cn,
+    ContactPerson addresses jsmith@example.org and support@example.org — and its entityID host
+    auth.whu.edu.cn does not resolve.
+  humanURL: https://cas.whu.edu.cn/authserver/login
+  baseURL: https://cas.whu.edu.cn/authserver/
+  tags:
+  - Single Sign-On
+  - OpenID Connect
+  - OAuth
+  - CAS
+  - SAML
+  - Identity
+  properties:
+  - type: OpenIDConnectDiscovery
+    url: https://cas.whu.edu.cn/authserver/oidc/.well-known/openid-configuration
+  - type: Authentication
+    url: authentication/wuhan-authentication.yml
+  - type: Scopes
+    url: scopes/wuhan-scopes.yml
+  - type: Metadata
+    url: identity-federation/wuhan-cas-saml-idp-metadata.xml
+  - type: Conformance
+    url: conformance/wuhan-conformance.yml
+  x-operator: institution
+  x-operator-basis: >-
+    cas.whu.edu.cn resolves to 115.156.123.25, netname WHR-CERNET (Wuhan Regional Network, CERNET),
+    with no vendor CNAME and a WHU-specific signing certificate. Institution-hosted software from a
+    supplier is `institution`, not `tenant` — the tenant test is an institution-specific account on
+    a host the vendor runs, and Wisedu runs nothing here.
+- aid: wuhan:igs-data-center
+  name: IGS Data Center at Wuhan University (GNSS archive)
+  description: >-
+    One of the International GNSS Service's Global Data Centers, operated by Wuhan University's
+    GNSS Research Center. The archive is anonymously listable over FTP at ftp://igs.gnsswhu.cn/pub/
+    and carries BDS, gnss, gps, highrate, iers, reports and whu directories — RINEX observation
+    data (obs, obs_v3, rinex4), broadcast ephemerides, MGEX multi-GNSS products, station logs,
+    IGS mail and report archives, and WHU's own phase-bias and MGEX product streams under pub/whu.
+    Directory timestamps show same-day updates. This is a genuine institution-operated,
+    machine-readable public data service and the largest programmable surface WHU has, but it is a
+    file archive: there is no HTTP API, no catalog endpoint and no contract of any kind — ports 80
+    and 443 on the host are closed, so FTP is the only transport.
+  humanURL: https://igs.org/data-access/
+  baseURL: ftp://igs.gnsswhu.cn/pub/
+  tags:
+  - GNSS
+  - Research Data
+  - Geodesy
+  - Open Data
+  - FTP
+  properties:
+  - type: OpenData
+    url: ftp://igs.gnsswhu.cn/pub/
+  - type: Documentation
+    url: https://igs.org/data-access/
+  x-operator: institution
+  x-operator-basis: >-
+    The International GNSS Service's own data-access page (https://igs.org/data-access/, HTTP 200)
+    names "Wuhan University", links its File Transfer button to ftp://igs.gnsswhu.cn/ and its
+    Institution Website button to http://en.whu.edu.cn/ — third-party attribution from the standards
+    body that accredits the data center, which is stronger evidence than any hostname. The host
+    resolves to 123.57.234.5 (Aliyun/Alibaba Cloud), i.e. WHU renting cloud rather than a vendor
+    running the service; the operator is settled by the IGS attribution, not by the address space.
+- aid: wuhan:carsi
+  name: CARSI membership (CERNET Authentication and Resource Sharing Infrastructure)
+  description: >-
+    Wuhan University is a registered identity provider in CARSI, China's national
+    research-and-education identity federation, operated from Peking University and a production
+    eduGAIN member since 2019-06-18. The CARSI registered-IdP roster
+    (https://www.carsi.edu.cn/IdPlist.html, HTTP 200, 1,203 entries) carries WHU as 武汉大学 /
+    WUHAN UNIVERSITY with entityID https://idp.whu.edu.cn/idp/shibboleth, online 2024-12-10,
+    status 3. Recorded as a membership, not as a contract: CARSI's metadata aggregate and discovery
+    service are CARSI's engineering, and the IdP behind the entry is Wuhan University's.
+  humanURL: https://www.carsi.edu.cn/IdPlist.html
+  baseURL: https://ds.carsi.edu.cn/
+  tags:
+  - Identity Federation
+  - eduGAIN
+  - Shibboleth
+  - Membership
+  properties:
+  - type: IdentityFederation
+    url: identity-federation/wuhan-identity-federation.yml
+  x-operator: federation
+  x-operator-basis: >-
+    A national identity federation is shared by definition and the identity provider behind the
+    entry is the institution's. Registration authority https://www.carsi.edu.cn, contact
+    carsi@pku.edu.cn, confirmed as a production eduGAIN member federation via
+    https://technical.edugain.org/api.php?action=list_feds (HTTP 200).
+- aid: wuhan:ror
+  name: ROR registry entry (Research Organization Registry)
+  description: >-
+    Wuhan University is registered in ROR as https://ror.org/033vjfk17 (active, established 1893),
+    cross-walked to GRID grid.49470.3e, ISNI 0000 0001 2331 6153, Wikidata Q1108197 and three
+    Crossref Open Funder Registry identifiers (501100007046, 501100015746, 501100013807). The
+    record was created 2018-11-14 and last modified 2026-07-20. 12,259 ORCID records carry an
+    affiliation resolved to this ROR identifier. Recorded as a registry membership — a fact about
+    the institution — never as a WHU contract. Wuhan University is NOT a DataCite member or
+    repository client (api.datacite.org returns total 0 for both providers and clients) and is not
+    a Crossref depositing member (api.crossref.org/members returns only an unrelated Wuhan company).
+  humanURL: https://ror.org/033vjfk17
+  baseURL: https://api.ror.org/v2/organizations/033vjfk17
+  tags:
+  - Registry
+  - Persistent Identifiers
+  - ROR
+  - Research
+  properties:
+  - type: Registry
+    url: https://ror.org/033vjfk17
+  - type: Conformance
+    url: conformance/wuhan-conformance.yml
+  x-operator: registry
+  x-operator-basis: >-
+    ROR is an identifier registry the institution is registered in, shared by every registered
+    organization because every organization is registered. The registry's contract is ROR's; the
+    entry is Wuhan University's.
+- aid: wuhan:opac
+  name: Wuhan University Library catalog (Ex Libris Aleph tenant)
+  description: >-
+    The library's online public access catalog at opac.lib.whu.edu.cn, running Ex Libris Aleph —
+    the root document is Aleph's own session bootstrap ("Aleph main menu", redirecting to /F?RN=)
+    on 202.114.65.55 in CERNET address space. The holdings, the sessions and the patron data are
+    WHU's; the catalog software and any Aleph X-Services contract are Ex Libris's and are shared
+    by every Aleph customer. Recorded as a tenant relationship. No vendor specification is saved
+    under this institution, and no public search or X-Services endpoint was found unauthenticated.
+    The library's main site lib.whu.edu.cn is a JavaScript shell serving 2,513 bytes of HTML with
+    no crawlable reference, and the English library host en.lib.whu.edu.cn does not resolve at all.
+  humanURL: https://opac.lib.whu.edu.cn/
+  baseURL: http://opac.lib.whu.edu.cn/F
+  tags:
+  - Library
+  - Library Catalog
+  - Discovery
+  properties:
+  - type: LibraryCatalog
+    url: https://opac.lib.whu.edu.cn/
+  x-operator: tenant
+  x-operator-basis: >-
+    Ex Libris Aleph running under a WHU hostname on CERNET address space. Institution-specific
+    deployment of a vendor library system; the contract belongs in the Ex Libris repo, not here.
+- aid: wuhan:jwgl
+  name: Wuhan University academic affairs / registrar system (SSO-gated)
+  description: >-
+    The institutional teaching-administration and course-registration system. jwgl.whu.edu.cn is
+    live and redirects unauthenticated callers to
+    https://cas.whu.edu.cn/authserver/login?service=https%3A%2F%2Fjwgl.whu.edu.cn%2Fsso%2F... —
+    a real institution-operated application behind campus SSO. Recorded as an institution-operated
+    surface with no published contract, not as an API whose specification we happen not to hold.
+    No OneRoster, LTI, SCIM or public course-catalog endpoint is exposed; xk.whu.edu.cn does not
+    resolve.
+  humanURL: https://jwgl.whu.edu.cn/
+  baseURL: https://jwgl.whu.edu.cn/
+  tags:
+  - Course Catalog
+  - Registrar
+  - Student Information System
+  properties:
+  - type: CourseCatalog
+    url: https://jwgl.whu.edu.cn/
+  x-operator: institution
+  x-operator-basis: >-
+    Under whu.edu.cn, redirecting into WHU's own CAS at cas.whu.edu.cn (115.156.123.25,
+    WHR-CERNET). Institution-operated and institution-gated.
+- aid: wuhan:journal-platform
+  name: Geomatics and Information Science of Wuhan University (journal platform)
+  description: >-
+    WHU's own journal publishing platform at ch.whu.edu.cn (115.156.123.29, WHR-CERNET), hosting
+    武汉大学学报·信息科学版 / Geomatics and Information Science of Wuhan University. Live and
+    institution-operated, but it publishes no harvesting or machine-readable surface: /oai,
+    /oai?verb=Identify, /rss and every other unrouted path return the identical 116,169-byte
+    JavaScript application shell with content-type text/html, which is a soft-404 and is recorded
+    as an absence rather than as a 200. /robots.txt and /sitemap.xml return application/json 404
+    bodies from the framework.
+  humanURL: https://ch.whu.edu.cn/
+  baseURL: https://ch.whu.edu.cn/
+  tags:
+  - Scholarly Publishing
+  - Journals
+  - Research
+  properties:
+  - type: Documentation
+    url: https://ch.whu.edu.cn/
+  x-operator: institution
+  x-operator-basis: >-
+    ch.whu.edu.cn resolves to 115.156.123.29, netname WHR-CERNET, the same Wuhan CERNET allocation
+    as idp. and cas.whu.edu.cn. WHU-run publishing platform, no vendor CNAME.
 common:
-  - type: DomainSecurity
-    url: security/wuhan-domain-security.yml
-  - type: Website
-    url: https://en.whu.edu.cn
-  - type: GitHub
-    url: https://github.com/WHUIR
-  - type: LinkedIn
-    url: https://www.linkedin.com/school/wuhan-university/
-  - type: Twitter
-    url: https://x.com/WHU_1893
-  - type: Plans
-    url: plans/wuhan-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/wuhan-rate-limits.yml
-  - type: FinOps
-    url: finops/wuhan-finops.yml
-  - type: Review
-    url: review.yml
+- type: DomainSecurity
+  url: security/wuhan-domain-security.yml
+- type: Website
+  url: https://en.whu.edu.cn
+- type: GitHubOrganization
+  url: https://github.com/WHUIR
+- type: LinkedIn
+  url: https://www.linkedin.com/school/wuhan-university/
+- type: Twitter
+  url: https://x.com/WHU_1893
+- type: IdentityFederation
+  url: https://idp.whu.edu.cn/idp/shibboleth
+- type: LibraryCatalog
+  url: https://opac.lib.whu.edu.cn/
+- type: CourseCatalog
+  url: https://jwgl.whu.edu.cn/
+- type: OpenData
+  url: ftp://igs.gnsswhu.cn/pub/
+- type: Authentication
+  url: authentication/wuhan-authentication.yml
+- type: Scopes
+  url: scopes/wuhan-scopes.yml
+- type: Conformance
+  url: conformance/wuhan-conformance.yml
+- type: Plans
+  url: plans/wuhan-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/wuhan-rate-limits.yml
+- type: FinOps
+  url: finops/wuhan-finops.yml
+- type: Review
+  url: review.yml
+x-coverage:
+  state: none
+  reason: no_public_api
+  detail: >-
+    Wuhan University publishes no public API, no developer portal and no contract of any kind, and
+    that is the honest result rather than a wall we hit. api., data., open., developer., dspace.,
+    repository. and library. under whu.edu.cn return no DNS answer; /.well-known/apis.json,
+    /.well-known/security.txt, /llms.txt, /robots.txt and /sitemap.xml are 404 on both www.whu.edu.cn
+    and en.whu.edu.cn; and no OpenAPI, AsyncAPI, GraphQL SDL or Postman collection was located
+    anywhere, so none has been saved and none has been derived.
+
+    Four institution-operated surfaces WERE confirmed live, all on CERNET address space allocated
+    to the Wuhan region or attributed by a standards body, and all are recorded above: the
+    Shibboleth SAML 2.0 identity provider at idp.whu.edu.cn, registered in CARSI since 2024-12-10;
+    the campus CAS/OIDC/SAML single-sign-on server at cas.whu.edu.cn, whose OpenID Connect
+    discovery document is the only conforming machine-readable contract WHU serves the public; the
+    IGS Global Data Center at ftp://igs.gnsswhu.cn/pub/, which the International GNSS Service's own
+    data-access page attributes to Wuhan University; and the journal platform at ch.whu.edu.cn.
+    None of the four publishes an API specification. The IdP's self-published metadata is Shibboleth's
+    shipped template, expired in 2019, and namespace-ill-formed (undeclared md: prefix at lines
+    131-133, so namespace-aware parsers fail with "unbound prefix") — the service conforms, the
+    document describing it does not.
+
+    Library discovery is an Ex Libris Aleph tenancy and is recorded as a tenant relationship, not
+    as a WHU contract. The registrar system jwgl.whu.edu.cn is real and institution-operated but
+    sits behind campus SSO. One host, ir.whu.edu.cn, returns 403 from an openresty edge on every
+    path and every user-agent tried, so it is unreadable from outside China and is deliberately NOT
+    characterized here — a 403 with no body is not evidence of an institutional repository.
+
+    Language was not the barrier: the Chinese-language estate was searched alongside the English
+    one, and the only English-only gap found is the reverse — the CAS protocol errors are emitted
+    in Chinese only.
+  evidence:
+  - url: https://en.whu.edu.cn/
+    status: 200
+  - url: https://www.whu.edu.cn/
+    status: 200
+  - url: https://en.whu.edu.cn/.well-known/apis.json
+    status: 404
+  - url: https://en.whu.edu.cn/llms.txt
+    status: 404
+  - url: https://www.whu.edu.cn/sitemap.xml
+    status: 404
+  - url: https://idp.whu.edu.cn/idp/shibboleth
+    status: 200
+  - url: https://idp.whu.edu.cn/idp/profile/SAML2/Redirect/SSO
+    status: 400
+  - url: https://cas.whu.edu.cn/authserver/oidc/.well-known/openid-configuration
+    status: 200
+  - url: https://cas.whu.edu.cn/authserver/idp/metadata
+    status: 200
+  - url: https://cas.whu.edu.cn/authserver/serviceValidate
+    status: 200
+  - url: https://www.carsi.edu.cn/IdPlist.html
+    status: 200
+  - url: https://igs.org/data-access/
+    status: 200
+  - url: ftp://igs.gnsswhu.cn/pub/
+    status: 226
+  - url: https://opac.lib.whu.edu.cn/
+    status: 200
+  - url: https://jwgl.whu.edu.cn/
+    status: 200
+  - url: https://ch.whu.edu.cn/oai?verb=Identify
+    status: 200
+  - url: https://ir.whu.edu.cn/
+    status: 403
+  - url: https://api.datacite.org/clients?query=Wuhan%20University
+    status: 200
+  - url: https://api.ror.org/v2/organizations/033vjfk17
+    status: 200
+  assessed: '2026-09-01'
+  method: probed
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
