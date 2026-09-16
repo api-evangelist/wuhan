@@ -143,6 +143,13 @@ apis:
   tags:
   - Single Sign-On
   - OpenID Connect
+  - Authentication
+  - CAS
+  - SAML
+  - Identity
+  tags_raw:
+  - Single Sign-On
+  - OpenID Connect
   - OAuth
   - CAS
   - SAML
