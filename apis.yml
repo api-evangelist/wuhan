@@ -58,7 +58,7 @@ tags:
 - Research
 - China
 - Identity Federation
-- Single Sign-On
+- SSO
 - Research Data
 - GNSS
 - Library
@@ -103,6 +103,11 @@ apis:
   - Identity Federation
   - SAML
   - Shibboleth
+  - SSO
+  tags_raw:
+  - Identity Federation
+  - SAML
+  - Shibboleth
   - Single Sign-On
   properties:
   - type: IdentityFederation
@@ -141,7 +146,7 @@ apis:
   humanURL: https://cas.whu.edu.cn/authserver/login
   baseURL: https://cas.whu.edu.cn/authserver/
   tags:
-  - Single Sign-On
+  - SSO
   - OpenID Connect
   - Authentication
   - CAS
