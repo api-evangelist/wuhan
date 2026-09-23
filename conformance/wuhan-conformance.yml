@@ -1,0 +1,214 @@
+specification: API Evangelist Domain Standard Conformance
+specificationVersion: '0.1'
+provider: Wuhan University
+providerId: wuhan
+regime: education
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes on 2026-09-01: https://idp.whu.edu.cn/idp/shibboleth (200, application/xml) and its
+  SSO profile handler https://idp.whu.edu.cn/idp/profile/SAML2/Redirect/SSO (400 on an empty
+  request); https://cas.whu.edu.cn/authserver/idp/metadata (200, text/xml);
+  https://cas.whu.edu.cn/authserver/oidc/.well-known/openid-configuration (200, application/json);
+  the CARSI registered-IdP roster https://www.carsi.edu.cn/IdPlist.html (200, 1,203 entries);
+  https://technical.edugain.org/api.php?action=list_feds (200); https://api.ror.org/v2/organizations/033vjfk17
+  (200); https://api.datacite.org/providers?query=Wuhan and /clients?query=Wuhan%20University
+  (200, total 0 both); https://api.crossref.org/members?query=Wuhan (200, 1 result, unrelated
+  company); https://pub.orcid.org/v3.0/expanded-search/?q=ror-org-id:"https://ror.org/033vjfk17"
+  (200, num-found 12,259); and OAI-PMH probes against https://ch.whu.edu.cn/oai?verb=Identify and
+  https://ir.whu.edu.cn/oai.
+description: >-
+  Conformance against the Kin Score `education` regime standards list (scim, lti, oneroster,
+  ed-fi, caliper, qti, oai-pmh, shibboleth, saml, orcid, datacite, crossref). Reward-only: a
+  standard is recorded as conformant only where an institution-operated surface demonstrates it,
+  and a probe that came back empty is recorded as empty rather than left out.
+
+  Two standards are evidenced, both identity: SAML 2.0 and Shibboleth, on Wuhan University's own
+  CERNET address space and registered in CARSI. Both come with a caveat this profile refuses to
+  round off -- the running services conform, but the metadata DOCUMENT the Shibboleth IdP
+  publishes is Shibboleth's shipped template, is namespace-ill-formed (an undeclared md: prefix
+  at lines 131-133 makes every namespace-aware parser fail with "unbound prefix"), and expired in
+  2019.
+  Conformance of a deployment and quality of the artifact describing it are different
+  measurements and this file keeps them apart.
+
+  Nothing else in the regime list is evidenced. Crucially, this does not feed the Kin Score's
+  domain_standard_conformance check, which reads a signature out of a CONTRACT: Wuhan University
+  publishes no OpenAPI, AsyncAPI or equivalent, so there is no contract for that check to read
+  and the four points stay unearned. That is the correct outcome, not a gap to be filled.
+
+conforms:
+- standard: saml
+  name: SAML 2.0
+  status: conformant
+  x-operator: institution
+  confidence: high
+  evidence:
+    url: https://idp.whu.edu.cn/idp/shibboleth
+    status: 200
+    content_type: application/xml;charset=utf-8
+    entity: https://idp.whu.edu.cn/idp/shibboleth
+    locations:
+    - 'EntityDescriptor[@entityID="https://idp.whu.edu.cn/idp/shibboleth"]/IDPSSODescriptor'
+    - 'IDPSSODescriptor/@protocolSupportEnumeration contains urn:oasis:names:tc:SAML:2.0:protocol'
+    - 'IDPSSODescriptor/SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]'
+    - 'Extensions/shibmd:Scope = whu.edu.cn'
+    local_copy: identity-federation/wuhan-idp-saml-metadata.xml
+    corroboration:
+      live_protocol_probe:
+        url: https://idp.whu.edu.cn/idp/profile/SAML2/Redirect/SSO
+        status: 400
+        reading: A running SAML 2.0 SSO handler rejecting a request with no SAMLRequest.
+      second_entity:
+        url: https://cas.whu.edu.cn/authserver/idp/metadata
+        status: 200
+        entity: http://auth.whu.edu.cn/authserver
+        note: >-
+          A second, well-formed SAML 2.0 EntityDescriptor from the campus CAS server, on a
+          WHU-specific certificate (CN=auth.whu.edu.cn, issued 2025-01-17).
+      resolved_ip: 115.156.123.26
+      ip_owner: WHR-CERNET — China Education and Research Network, Wuhan Regional Network (APNIC)
+  note: >-
+    Two institution-operated SAML 2.0 identity providers, both on CERNET address space allocated
+    to the Wuhan region, with no managed-platform CNAME and no cloud-vendor hosting. Confidence
+    is high on the protocol. The published Shibboleth metadata document, however, is defective:
+    see identity-federation/wuhan-identity-federation.yml.
+
+- standard: shibboleth
+  name: Shibboleth / CARSI federated identity
+  status: conformant
+  x-operator: institution
+  confidence: high
+  evidence:
+    url: https://www.carsi.edu.cn/IdPlist.html
+    status: 200
+    bytes: 285114
+    locations:
+    - 'var IdPList1[] entry {"name":"武汉大学","url":"https://idp.whu.edu.cn/idp/shibboleth","online":"2024-12-10","status":"3"}'
+    - 'searchStr "WUHAN UNIVERSITY-武汉大学-HTTPS://IDP.WHU.EDU.CN/IDP/SHIBBOLETH"'
+    corroboration:
+      federation: CARSI — CERNET Authentication and Resource Sharing Infrastructure
+      registration_authority: https://www.carsi.edu.cn
+      interfederation:
+        url: https://technical.edugain.org/api.php?action=list_feds
+        status: 200
+        location: 'CARSI: {"reg_auth":"https://www.carsi.edu.cn","status":"6","membership_date":"2019-05-24","production_date":"2019-06-18"}'
+        reading: CARSI is a production eduGAIN member federation, so the WHU entity interfederates.
+      roster_size: 1203
+      self_published_metadata:
+        url: https://idp.whu.edu.cn/idp/shibboleth
+        status: 200
+        software_signature: 'shibmd:Scope, urn:mace:shibboleth:1.0 in protocolSupportEnumeration, /idp/profile/Shibboleth/SSO endpoint'
+  note: >-
+    Wuhan University is one of 1,203 identity providers registered in China's national R&E
+    identity federation, entered on 2024-12-10 with production status. This is the institution's
+    strongest machine-readable surface and it is institution-operated by definition.
+
+not_conformant:
+- standard: oai-pmh
+  status: not-evidenced
+  probes:
+  - url: https://ch.whu.edu.cn/oai?verb=Identify
+    status: 200
+    reading: >-
+      SOFT-404. Returns the journal site's 116,169-byte SPA shell, byte-identical to the shell
+      returned for /oai, /rss and every other unrouted path, with content-type text/html. Not an
+      OAI-PMH response. Recorded as absent, not as a 200.
+  - url: https://ir.whu.edu.cn/oai
+    status: 403
+    reading: Bot- or geo-blocked at an openresty edge; unreadable from outside CN, not proven absent.
+  detail: >-
+    No institution-operated OAI-PMH endpoint could be confirmed. The Geomatics and Information
+    Science of Wuhan University journal platform at ch.whu.edu.cn is WHU-operated and live, but
+    exposes no harvesting verb.
+- standard: datacite
+  status: not-evidenced
+  probes:
+  - url: https://api.datacite.org/providers?query=Wuhan
+    status: 200
+    reading: meta.total = 0. No DataCite member or consortium organization.
+  - url: https://api.datacite.org/clients?query=Wuhan%20University
+    status: 200
+    reading: meta.total = 0. No DataCite repository client.
+  detail: Wuhan University is not a DataCite member or repository, so no membership is recorded.
+- standard: crossref
+  status: registrant-only
+  probes:
+  - url: https://api.crossref.org/members?query=Wuhan
+    status: 200
+    reading: >-
+      total-results 1, and it is "InnoSeries (Wuhan) Technology Service Co., Ltd" — an unrelated
+      company. Wuhan University is not a Crossref depositing member.
+  - url: https://api.ror.org/v2/organizations/033vjfk17
+    status: 200
+    reading: >-
+      external_ids includes fundref 501100007046, 501100015746 and 501100013807 — Wuhan
+      University is present in the Crossref Open Funder Registry.
+  detail: >-
+    Being NAMED in Crossref's funder registry is a fact about the institution, not conformance
+    to Crossref deposit. Recorded here so the distinction is on the record and the entry is not
+    mistaken for an unprobed gap.
+- standard: orcid
+  status: registrant-only
+  probes:
+  - url: 'https://pub.orcid.org/v3.0/expanded-search/?q=ror-org-id:"https://ror.org/033vjfk17"'
+    status: 200
+    reading: num-found 12,259 ORCID records carry an affiliation resolved to WHU's ROR identifier.
+  detail: >-
+    Wuhan University is identifiable inside ORCID through its ROR ID and 12,259 researchers
+    assert affiliation to it. No WHU-operated ORCID member API integration was found, so this is
+    recorded as registrant presence, not institutional conformance.
+- standard: scim
+  status: not-evidenced
+  detail: >-
+    No SCIM schema URN, /scim/v2 path or provisioning endpoint was found on any WHU host. The
+    campus SSO advertises OIDC and CAS only.
+- standard: lti
+  status: not-evidenced
+  detail: >-
+    No LTI tool or platform registration surface was located. The teaching estate is behind
+    cas.whu.edu.cn and unreadable without institutional credentials.
+- standard: oneroster
+  status: not-evidenced
+  detail: No OneRoster endpoint found; the registrar system jwgl.whu.edu.cn is SSO-gated.
+- standard: ed-fi
+  status: not-evidenced
+  detail: Ed-Fi has no adoption in Chinese higher education and none was found here.
+- standard: caliper
+  status: not-evidenced
+  detail: No Caliper Analytics sensor or event store surface was found.
+- standard: qti
+  status: not-evidenced
+  detail: No QTI assessment surface was found.
+
+out_of_regime_standards_found:
+- standard: openid-connect
+  name: OpenID Connect 1.0
+  status: conformant
+  x-operator: institution
+  evidence:
+    url: https://cas.whu.edu.cn/authserver/oidc/.well-known/openid-configuration
+    status: 200
+    content_type: application/json;charset=UTF-8
+    bytes: 1340
+    locations:
+    - 'issuer = https://cas.whu.edu.cn/authserver/oidc/'
+    - 'jwks_uri = https://cas.whu.edu.cn/authserver/oidc/jwks (HTTP 200)'
+    - 'RFC 8414 / OIDC Discovery 1.0 well-known path'
+  note: >-
+    Not in the education regime list, recorded because it is the only conforming, self-describing,
+    machine-readable contract Wuhan University serves to the anonymous public. The discovery
+    shape is the Wisedu CAS product's; the deployment and the keys are WHU's. See
+    authentication/wuhan-authentication.yml for the weaknesses it declares (alg "none", password
+    grant, no PKCE declaration).
+- standard: cas
+  name: Apereo CAS protocol
+  status: conformant
+  x-operator: institution
+  evidence:
+    url: https://cas.whu.edu.cn/authserver/serviceValidate
+    status: 200
+    content_type: application/xml;charset=UTF-8
+    locations:
+    - 'cas:serviceResponse / cas:authenticationFailure code="INVALID_REQUEST"'
+    - 'namespace http://www.yale.edu/tp/cas'

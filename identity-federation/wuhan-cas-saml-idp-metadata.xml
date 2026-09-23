@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" entityID="http://auth.whu.edu.cn/authserver">
+    <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:oasis:names:tc:SAML:1.1:protocol urn:mace:shibboleth:1.0">
+        <Extensions>
+            <shibmd:Scope regexp="false">wisedu.com</shibmd:Scope>
+        </Extensions>
+        <KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>MIIDHjCCAgagAwIBAgIVAIWNMzmoYqCp1EtAlgQfc3lKoe3oMA0GCSqGSIb3DQEB
+CwUAMBoxGDAWBgNVBAMMD2F1dGgud2h1LmVkdS5jbjAeFw0yNTAxMTcwOTIyNTha
+Fw00NTAxMTcwOTIyNThaMBoxGDAWBgNVBAMMD2F1dGgud2h1LmVkdS5jbjCCASIw
+DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIUNZv4+446w0Bz66B92e0t2qOja
+QSdjk7fxXz83+M+u//SASYil5XtoHWp+Sw876sTngu6Kr1SyG/lzdZKY0RIsYw7D
+SCsVN9oGyRw3qHElDEs0U0PlkXNzYOfDV8Q5ErBowbnqtnmSqm0c/op95OTB2FBd
+sPIHu06/GbJUUVFwf+rIkHf5tosrRlOYeQGXZmDTnCXpBIlAnCEav0nlOYQD//lG
+qO79OA44MqQfWSUNCL57fvlCEGRRMrKoTW3tJt01CLLCHV7OocEQYh9fdkOsg5+M
+rLBPCoja/+C651tEEtt7kmeVU8qqYQJ3fwoCSmhtDQag7zYWqCOvsWFv/vMCAwEA
+AaNbMFkwHQYDVR0OBBYEFJ1BxQQLda8ETAHcGAbAdVyaj0p0MDgGA1UdEQQxMC+C
+D2F1dGgud2h1LmVkdS5jboYcYXV0aC53aHUuZWR1LmNuL2lkcC9tZXRhZGF0YTAN
+BgkqhkiG9w0BAQsFAAOCAQEAcb73ii/6c+hfOvG2mAOD2bmEqK/WEMOaRUdkaT7i
+PCQKt7enArAsaRkOP1sbKI35r4AWLzRMG0NBtmQw0dehBH9s/p4y7DCZFbXAluyj
+dkl7ynujzX/OAl+pwc0lnPYQN0icUpi0tUSmf3v1li+2iBjperA8i5MKp+Gktddz
+mTQwvvzvp5RWhnzVVsHytS0cJ6F1lGx5z5P1uQ3oWWVMXGODyAeazU2X83bEMIkc
+ffpmmlqHLJuhiAZecrhOMpx0Qd2a8+ZfaJNhjC0UXaE7mKO1KVZs9UXuzHrud6ig
+6//hYZfQb8CGTEE6yy5jGYfRN/u91P+8WNd5UZaA3FL4zg==</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </KeyDescriptor>
+        <KeyDescriptor use="encryption">
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>MIIDHjCCAgagAwIBAgIVAISnIHT6gG5bloaye2LNrS3FCEIIMA0GCSqGSIb3DQEB
+CwUAMBoxGDAWBgNVBAMMD2F1dGgud2h1LmVkdS5jbjAeFw0yNTAxMTcwOTIyNTla
+Fw00NTAxMTcwOTIyNTlaMBoxGDAWBgNVBAMMD2F1dGgud2h1LmVkdS5jbjCCASIw
+DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJfZqlyxl8nmhncLnynyUkx8mpt4
+oMcYHUL0Y4nkQnBa1sr/sAr4Pcyn0AzKIdNEVPJveM2uKBqmz9J8TqiMteC4Yipe
+4WZ7iC/cYY5cRsDwgHKquA+hqCcTEG1PeMxHqPveD/ln2aDwuD0mcGP6VA4TlV6V
+P+pRgEnWLP9iZDUSlQr2Pvw1apvIU8gerbEfX1L6tlwBcOnCk3oVV6T1T+pzQfML
+eaC9lNay81vbr8G0krbfUPTm+rNg+Jf3Noez+SMuRCu5IY03PnGJY01YzdHuRTsn
+qCmwEkGicPfmqRZ8i5pjwAAEsEqg+YYvjLqx39k3GKOAkGAumJmG19Z94iMCAwEA
+AaNbMFkwHQYDVR0OBBYEFEPHjbiTOdejYUplxB51SodF4EvDMDgGA1UdEQQxMC+C
+D2F1dGgud2h1LmVkdS5jboYcYXV0aC53aHUuZWR1LmNuL2lkcC9tZXRhZGF0YTAN
+BgkqhkiG9w0BAQsFAAOCAQEAAp9KbsjdCUychePv05ONtGSyFmrl4h55QSxSLs8v
+9pNAe6aLxpA+50BWxdsae/qpbapf0QXXT2yEGTE9YASAx95BjlBOujUkc0wGa6R5
+pJxPgUg4nCD2nhHH39zzMfyYOR2tkSOxYZj3U7PNwkF0shabKX5oC2Q3eHR6Km+B
+Cs1W5SK+RUrOn1RSUMaqOCnrSf/oTxnPr7LXZRZEARTK1xfxx5IjwJDb/Vsn51nD
+nJAi97BaeOgVI57s+/ZXUS3EzJBZZ+sN8AnKySIS3DceE/6JZmoHmpv6QODW/Imm
+piYbqYl/j7diRQVVd87+LboG9f4eEr4p6Qw1MMvoF0LckA==</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </KeyDescriptor>
+
+        <!--
+        <ArtifactResolutionService Binding="urn:oasis:names:tc:SAML:1.0:bindings:SOAP-binding" 
+                                   Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML1/SOAP/ArtifactResolution" index="1"/>
+        -->
+        
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML2/POST/SLO"/>
+        
+        <NameIDFormat>urn:mace:shibboleth:1.0:nameIdentifier</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML2/POST/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML2/POST-SimpleSign/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML2/Redirect/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML2/SOAP/ECP"/>
+    </IDPSSODescriptor>
+
+    <!--
+    <AttributeAuthorityDescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:1.1:protocol urn:oasis:names:tc:SAML:2.0:protocol">
+        <Extensions>
+            <shibmd:Scope regexp="false">wisedu.com</shibmd:Scope>
+        </Extensions>
+        <KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>MIIDHjCCAgagAwIBAgIVAIWNMzmoYqCp1EtAlgQfc3lKoe3oMA0GCSqGSIb3DQEB
+CwUAMBoxGDAWBgNVBAMMD2F1dGgud2h1LmVkdS5jbjAeFw0yNTAxMTcwOTIyNTha
+Fw00NTAxMTcwOTIyNThaMBoxGDAWBgNVBAMMD2F1dGgud2h1LmVkdS5jbjCCASIw
+DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIUNZv4+446w0Bz66B92e0t2qOja
+QSdjk7fxXz83+M+u//SASYil5XtoHWp+Sw876sTngu6Kr1SyG/lzdZKY0RIsYw7D
+SCsVN9oGyRw3qHElDEs0U0PlkXNzYOfDV8Q5ErBowbnqtnmSqm0c/op95OTB2FBd
+sPIHu06/GbJUUVFwf+rIkHf5tosrRlOYeQGXZmDTnCXpBIlAnCEav0nlOYQD//lG
+qO79OA44MqQfWSUNCL57fvlCEGRRMrKoTW3tJt01CLLCHV7OocEQYh9fdkOsg5+M
+rLBPCoja/+C651tEEtt7kmeVU8qqYQJ3fwoCSmhtDQag7zYWqCOvsWFv/vMCAwEA
+AaNbMFkwHQYDVR0OBBYEFJ1BxQQLda8ETAHcGAbAdVyaj0p0MDgGA1UdEQQxMC+C
+D2F1dGgud2h1LmVkdS5jboYcYXV0aC53aHUuZWR1LmNuL2lkcC9tZXRhZGF0YTAN
+BgkqhkiG9w0BAQsFAAOCAQEAcb73ii/6c+hfOvG2mAOD2bmEqK/WEMOaRUdkaT7i
+PCQKt7enArAsaRkOP1sbKI35r4AWLzRMG0NBtmQw0dehBH9s/p4y7DCZFbXAluyj
+dkl7ynujzX/OAl+pwc0lnPYQN0icUpi0tUSmf3v1li+2iBjperA8i5MKp+Gktddz
+mTQwvvzvp5RWhnzVVsHytS0cJ6F1lGx5z5P1uQ3oWWVMXGODyAeazU2X83bEMIkc
+ffpmmlqHLJuhiAZecrhOMpx0Qd2a8+ZfaJNhjC0UXaE7mKO1KVZs9UXuzHrud6ig
+6//hYZfQb8CGTEE6yy5jGYfRN/u91P+8WNd5UZaA3FL4zg==</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </KeyDescriptor>
+        <AttributeService Binding="urn:oasis:names:tc:SAML:1.0:bindings:SOAP-binding" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML1/SOAP/AttributeQuery"/>
+        <AttributeService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://auth.whu.edu.cn/authserver/idp/profile/SAML2/SOAP/AttributeQuery"/>
+    </AttributeAuthorityDescriptor>
+    -->
+    
+    <!--
+    <Organization>
+        <OrganizationName xml:lang="en">Institution Name</OrganizationName>
+        <OrganizationDisplayName xml:lang="en">Institution DisplayName</OrganizationDisplayName>
+        <OrganizationURL xml:lang="en">URL</OrganizationURL>
+    </Organization>
+    <ContactPerson contactType="administrative">
+        <GivenName>John Smith</GivenName>
+        <EmailAddress>jsmith@example.org</EmailAddress>
+    </ContactPerson>
+    <ContactPerson contactType="technical">
+        <GivenName>John Smith</GivenName>
+        <EmailAddress>jsmith@example.org</EmailAddress>
+    </ContactPerson>
+    <ContactPerson contactType="support">
+        <GivenName>IT Services Support</GivenName>
+        <EmailAddress>support@example.org</EmailAddress>
+    </ContactPerson>
+    -->
+</EntityDescriptor>

@@ -1,0 +1,174 @@
+specification: API Evangelist Identity Federation
+specificationVersion: '0.1'
+provider: Wuhan University
+providerId: wuhan
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live fetch of https://idp.whu.edu.cn/idp/shibboleth (HTTP 200, application/xml;charset=utf-8,
+  14,864 bytes, archived at identity-federation/wuhan-idp-saml-metadata.xml); live fetch of
+  https://cas.whu.edu.cn/authserver/idp/metadata (HTTP 200, text/xml;charset=UTF-8, 7,320 bytes,
+  archived at identity-federation/wuhan-cas-saml-idp-metadata.xml); the CARSI registered-IdP
+  roster at https://www.carsi.edu.cn/IdPlist.html (HTTP 200, 285,114 bytes, 1,203 registered
+  identity providers), parsed for the Wuhan University entry; and the eduGAIN technical API
+  https://technical.edugain.org/api.php?action=list_feds (HTTP 200) for CARSI's interfederation
+  status. Host operator settled by APNIC whois on the resolved addresses, not by hostname.
+description: >-
+  Wuhan University operates its own SAML 2.0 identity infrastructure and is a registered member
+  of CARSI, China's national research-and-education identity federation, which has been a
+  production eduGAIN member since 2019-06-18. This is the strongest institution-operated
+  machine-readable surface in the profile, and it is the class this cohort was most completely
+  missing.
+
+  Two distinct SAML identity providers answer under whu.edu.cn and they are not the same system.
+  The Shibboleth IdP at idp.whu.edu.cn is the entity CARSI registers, it responds to the SAML 2.0
+  Redirect SSO profile with HTTP 400 on a request carrying no SAMLRequest (a live protocol
+  endpoint, not a static page), and its entityID and shibmd:Scope are correct. The metadata
+  DOCUMENT it self-publishes, however, is the un-customized template Shibboleth ships: it still
+  opens with the "This is example metadata only" banner, carries validUntil="2019-10-31", leaves
+  the mdui:UIInfo, Organization and ContactPerson blocks commented out, and includes three
+  SingleLogoutService elements on the placeholder host idp.xxx.edu.cn written with an undeclared
+  md: namespace prefix -- which makes the published document namespace-ill-formed. It is
+  well-formed XML 1.0, so a non-namespace-aware reader gets through it, but every namespace-aware
+  parser stops: xmllint reports "Namespace prefix md on SingleLogoutService is not defined" at
+  lines 131-133, and both Python's xml.etree and minidom raise "unbound prefix: line 131, column
+  8". A conforming SAML metadata consumer is namespace-aware by definition, so it cannot load
+  this document; CARSI's aggregate carries a curated entry instead, which is why federated login
+  works regardless.
+
+  The second IdP is the Wisedu CAS deployment at cas.whu.edu.cn, which serves SAML 2.0 metadata
+  under entityID http://auth.whu.edu.cn/authserver on a WHU-specific X.509 certificate
+  (CN=auth.whu.edu.cn, issued 2025-01-17). Its Organization and ContactPerson blocks are the
+  vendor's shipped placeholders (jsmith@example.org, support@example.org) and its shibmd:Scope
+  reads wisedu.com rather than whu.edu.cn -- the product default, unedited. The deployment and
+  the key are the institution's; the document shape is the product's.
+
+federation:
+  name: CERNET Authentication and Resource Sharing Infrastructure
+  abbreviation: CARSI
+  registration_authority: https://www.carsi.edu.cn
+  operator_contact: carsi@pku.edu.cn
+  idp_roster: https://www.carsi.edu.cn/IdPlist.html
+  discovery_service: https://ds.carsi.edu.cn/
+  interfederation: eduGAIN
+  edugain_membership_date: '2019-05-24'
+  edugain_production_date: '2019-06-18'
+  edugain_status: '6'
+  registered_idps: 1203
+  probed: '2026-09-01'
+  status: 200
+  membership:
+    registered_name: 武汉大学
+    registered_name_en: WUHAN UNIVERSITY
+    entityID: https://idp.whu.edu.cn/idp/shibboleth
+    online: '2024-12-10'
+    status: '3'
+    evidence_location: 'var IdPList1[] entry, https://www.carsi.edu.cn/IdPlist.html'
+
+identity_providers:
+- entityID: https://idp.whu.edu.cn/idp/shibboleth
+  software: Shibboleth Identity Provider
+  x-operator: institution
+  operator_basis: >-
+    idp.whu.edu.cn resolves to 115.156.123.26 with no CNAME off institutional infrastructure.
+    APNIC whois returns inetnum 115.156.0.0 - 115.157.255.255, netname WHR-CERNET, descr "China
+    Education and Research Network / Wuhan Regional Network" -- the CERNET regional allocation
+    Wuhan University's campus network sits in, not a vendor's cloud. The same allocation carries
+    cas.whu.edu.cn (115.156.123.25), ir.whu.edu.cn and ch.whu.edu.cn (115.156.123.29). Unlike
+    the AAF Rapid IdP pattern found at Monash and Melbourne, there is no managed-platform CNAME
+    and no cloud-provider address space here.
+  metadata_url: https://idp.whu.edu.cn/idp/shibboleth
+  metadata_status: 200
+  metadata_content_type: application/xml;charset=utf-8
+  metadata_bytes: 14864
+  local_copy: identity-federation/wuhan-idp-saml-metadata.xml
+  scope: whu.edu.cn
+  protocols:
+  - urn:oasis:names:tc:SAML:2.0:protocol
+  - urn:oasis:names:tc:SAML:1.1:protocol
+  - urn:mace:shibboleth:1.0
+  endpoints:
+    sso_redirect: https://idp.whu.edu.cn/idp/profile/SAML2/Redirect/SSO
+    sso_post: https://idp.whu.edu.cn/idp/profile/SAML2/POST/SSO
+    sso_post_simplesign: https://idp.whu.edu.cn/idp/profile/SAML2/POST-SimpleSign/SSO
+    shibboleth_sso: https://idp.whu.edu.cn/idp/profile/Shibboleth/SSO
+    slo_redirect: https://idp.whu.edu.cn/idp/profile/SAML2/Redirect/SLO
+    attribute_query: https://idp.whu.edu.cn:8443/idp/profile/SAML2/SOAP/AttributeQuery
+  liveness:
+    check: GET https://idp.whu.edu.cn/idp/profile/SAML2/Redirect/SSO with no SAMLRequest
+    status: 400
+    reading: >-
+      A live Shibboleth SSO profile handler rejecting a malformed request. A static page or a
+      soft-404 would not answer 400 here. The IdP is running.
+  defects:
+  - id: metadata_is_shipped_template
+    severity: high
+    detail: >-
+      The document opens with Shibboleth's own warning comment, "This is example metadata only.
+      Do *NOT* supply it as is without review". mdui:UIInfo, Organization and ContactPerson are
+      all still commented out, so the published metadata names neither the institution nor a
+      contact.
+  - id: metadata_namespace_ill_formed
+    severity: high
+    detail: >-
+      Lines 131-133 carry md:SingleLogoutService elements with no xmlns:md declaration anywhere
+      in the document. xmllint --noout reports "Namespace prefix md on SingleLogoutService is not
+      defined" at lines 131, 132 and 133 -- and, notably, still exits 0, because the document is
+      well-formed XML 1.0 and ill-formed only against Namespaces in XML. Python's xml.etree and
+      minidom both raise "unbound prefix: line 131, column 8". Any namespace-aware SAML metadata
+      consumer -- which is all of them -- fails to load it.
+  - id: placeholder_host_in_metadata
+    severity: moderate
+    detail: >-
+      Those same three elements point at https://idp.xxx.edu.cn/idp/profile/SAML2/... -- the
+      template's placeholder hostname, never replaced.
+  - id: metadata_expired
+    severity: moderate
+    detail: >-
+      validUntil="2019-10-31T06:29:11.496Z". Any consumer honouring validUntil has treated this
+      document as expired for nearly seven years.
+- entityID: http://auth.whu.edu.cn/authserver
+  software: Wisedu CAS (authserver)
+  x-operator: institution
+  operator_basis: >-
+    Served from cas.whu.edu.cn (115.156.123.25, netname WHR-CERNET, Wuhan Regional Network),
+    the campus SSO that jwgl.whu.edu.cn and the rest of the institutional application estate
+    redirect into. The signing certificate is issued to CN=auth.whu.edu.cn, 2025-01-17 to
+    2045-01-17 -- a WHU-specific key, so this is a WHU deployment rather than a shared vendor
+    tenant. The declared entityID host auth.whu.edu.cn does not currently resolve, which is a
+    configuration defect, not a hosting one.
+  metadata_url: https://cas.whu.edu.cn/authserver/idp/metadata
+  metadata_status: 200
+  metadata_content_type: text/xml;charset=UTF-8
+  metadata_bytes: 7320
+  local_copy: identity-federation/wuhan-cas-saml-idp-metadata.xml
+  scope: wisedu.com
+  well_formed: true
+  defects:
+  - id: vendor_default_scope
+    severity: high
+    detail: >-
+      shibmd:Scope is "wisedu.com", the vendor's own domain, rather than whu.edu.cn. A scoped
+      attribute released by this entity would assert affiliation with the supplier.
+  - id: vendor_placeholder_contacts
+    severity: moderate
+    detail: >-
+      ContactPerson EmailAddress values are jsmith@example.org (technical) and
+      support@example.org (support) -- Shibboleth/Wisedu template values, never replaced.
+  - id: entityid_host_unresolvable
+    severity: moderate
+    detail: >-
+      entityID http://auth.whu.edu.cn/authserver and every endpoint Location in the document
+      use auth.whu.edu.cn, which returns no DNS answer. The live service is cas.whu.edu.cn.
+      An entityID is an identifier and need not dereference, but the endpoint Locations must.
+
+not_found:
+- what: eduGAIN per-entity metadata for the WHU IdP
+  detail: >-
+    CARSI is an eduGAIN member, so the WHU entity is expected to flow into the eduGAIN
+    aggregate, but no per-entity URL under an eduGAIN MDQ service was located from outside CN
+    and none is claimed here.
+- what: a Service Provider entity operated by Wuhan University
+  detail: >-
+    Only identity-provider entities were evidenced. No WHU-operated SAML SP was found in any
+    reachable aggregate.

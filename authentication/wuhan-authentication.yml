@@ -1,0 +1,149 @@
+specification: API Evangelist Authentication
+specificationVersion: '0.1'
+provider: Wuhan University
+providerId: wuhan
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live fetches on 2026-09-01 of https://cas.whu.edu.cn/authserver/oidc/.well-known/openid-configuration
+  (HTTP 200, application/json;charset=UTF-8, 1,340 bytes, archived at
+  authentication/wuhan-cas-oidc-openid-configuration.json),
+  https://cas.whu.edu.cn/authserver/oidc/jwks (HTTP 200, application/json, 384 bytes, archived at
+  authentication/wuhan-cas-oidc-jwks.json), https://cas.whu.edu.cn/authserver/serviceValidate and
+  /authserver/p3/serviceValidate (HTTP 200, application/xml, CAS protocol fault documents),
+  https://cas.whu.edu.cn/authserver/idp/metadata (HTTP 200, text/xml) and
+  https://idp.whu.edu.cn/idp/shibboleth (HTTP 200, application/xml). Every URL in this file was
+  requested and its status recorded; nothing here is inferred from a link.
+description: >-
+  Wuhan University publishes no public API and no API key programme, but it does operate a campus
+  single-sign-on estate whose protocol surfaces are openly readable, and one of them -- the OpenID
+  Connect discovery document at cas.whu.edu.cn -- is the only conforming, self-describing,
+  machine-readable contract this institution serves to the anonymous public.
+
+  Three protocols answer on institution-operated hosts: OpenID Connect and CAS on
+  cas.whu.edu.cn/authserver, and SAML 2.0 on both cas.whu.edu.cn and idp.whu.edu.cn. All of them
+  authenticate people into WHU's own applications; none of them fronts a public data or service
+  API, and no dynamic client registration was attempted. The discovery document ADVERTISES a
+  registration_endpoint, but this profile records that as a declaration, not as an invitation --
+  it was never called, and an unauthenticated caller should assume it is closed.
+
+  What the OIDC document is NOT is evidence of WHU engineering an authorization server. It is the
+  standard discovery shape emitted by the Wisedu CAS product, and the same document appears at
+  hundreds of Chinese university authserver deployments. The DEPLOYMENT is the institution's; the
+  contract shape is the product's. That distinction is the whole point of this pipeline and it is
+  why no OpenAPI has been derived from these endpoints.
+
+authentication:
+- id: cas-oidc
+  name: Wuhan University campus SSO — OpenID Connect
+  x-operator: institution
+  x-operator-basis: >-
+    cas.whu.edu.cn resolves to 115.156.123.25; APNIC whois gives netname WHR-CERNET, "China
+    Education and Research Network / Wuhan Regional Network". No CNAME to a vendor platform, no
+    cloud address space. Institution-hosted software from a supplier, which is `institution`,
+    not `tenant` -- the tenant test is an institution-specific account on a host the vendor runs.
+  type: oauth2
+  flavor: OpenID Connect 1.0
+  discovery:
+    url: https://cas.whu.edu.cn/authserver/oidc/.well-known/openid-configuration
+    status: 200
+    content_type: application/json;charset=UTF-8
+    bytes: 1340
+    local_copy: authentication/wuhan-cas-oidc-openid-configuration.json
+  issuer: https://cas.whu.edu.cn/authserver/oidc/
+  endpoints:
+    authorization: https://cas.whu.edu.cn/authserver/oidc/authorize
+    token: https://cas.whu.edu.cn/authserver/oidc/accessToken
+    userinfo: https://cas.whu.edu.cn/authserver/oidc/profile
+    jwks: https://cas.whu.edu.cn/authserver/oidc/jwks
+    introspection: https://cas.whu.edu.cn/authserver/oidc/introspect
+    revocation: https://cas.whu.edu.cn/authserver/oidc/revoke
+    registration: https://cas.whu.edu.cn/authserver/oidc/register
+    end_session: https://cas.whu.edu.cn/authserver/logout
+  grant_types:
+  - authorization_code
+  - password
+  - client_credentials
+  - refresh_token
+  response_types:
+  - code
+  - token
+  - id_token token
+  jwks:
+    url: https://cas.whu.edu.cn/authserver/oidc/jwks
+    status: 200
+    bytes: 384
+    local_copy: authentication/wuhan-cas-oidc-jwks.json
+  onboarding: institutional
+  public_client_registration: not-verified
+  notes:
+  - >-
+    id_token_signing_alg_values_supported includes "none" alongside RS256. An unsigned ID token
+    is accepted by this configuration, which is a weakness a relying party should pin against.
+  - >-
+    grant_types_supported includes the resource-owner "password" grant, deprecated by OAuth 2.1
+    and by the OAuth security BCP.
+  - >-
+    No code_challenge_methods_supported is advertised, so PKCE support is undeclared.
+  - >-
+    No token_endpoint_auth_methods_supported is advertised. Only the introspection endpoint
+    declares its auth method (client_secret_basic).
+- id: cas-protocol
+  name: Wuhan University campus SSO — CAS protocol
+  x-operator: institution
+  x-operator-basis: Same host and address space as cas-oidc.
+  type: ticket
+  flavor: Apereo CAS protocol (Wisedu authserver distribution)
+  endpoints:
+    login: https://cas.whu.edu.cn/authserver/login
+    logout: https://cas.whu.edu.cn/authserver/logout
+    service_validate: https://cas.whu.edu.cn/authserver/serviceValidate
+    p3_service_validate: https://cas.whu.edu.cn/authserver/p3/serviceValidate
+  probes:
+  - url: https://cas.whu.edu.cn/authserver/serviceValidate
+    status: 200
+    content_type: application/xml;charset=UTF-8
+    body: >-
+      cas:serviceResponse with cas:authenticationFailure code="INVALID_REQUEST" -- "必须同时提供
+      'service'和'ticket'参数" (both the 'service' and 'ticket' parameters must be supplied).
+    reading: >-
+      A live CAS ticket validator answering in the CAS 2.0/3.0 XML fault shape. The error is in
+      Chinese only; there is no localized English protocol surface.
+  - url: https://cas.whu.edu.cn/authserver/oauth2.0/profile
+    status: 401
+    content_type: application/json;charset=UTF-8
+    reading: The CAS OAuth profile endpoint is present and correctly rejects an unauthenticated read.
+  - url: https://cas.whu.edu.cn/authserver/samlValidate
+    status: 405
+    reading: Present, POST-only. Not an absence.
+  onboarding: institutional
+- id: shibboleth-idp
+  name: Wuhan University Shibboleth Identity Provider — SAML 2.0
+  x-operator: institution
+  x-operator-basis: >-
+    idp.whu.edu.cn resolves to 115.156.123.26, netname WHR-CERNET (Wuhan Regional Network,
+    CERNET). Registered in CARSI under 武汉大学 since 2024-12-10.
+  type: saml
+  flavor: SAML 2.0 / Shibboleth
+  metadata_url: https://idp.whu.edu.cn/idp/shibboleth
+  detail: identity-federation/wuhan-identity-federation.yml
+  onboarding: federation
+  notes:
+  - >-
+    The published metadata document is Shibboleth's shipped template, is namespace-ill-formed
+    (undeclared md: prefix at lines 131-133; namespace-aware parsers fail with "unbound prefix"),
+    and expired in 2019. See identity-federation/wuhan-identity-federation.yml for the full
+    defect list. The running service is healthy; the document describing it is not.
+
+not_found:
+- what: API keys, developer accounts, or any public credential issuance
+  probes:
+  - url: https://en.whu.edu.cn/.well-known/apis.json
+    status: 404
+  - url: https://www.whu.edu.cn/.well-known/security.txt
+    status: 404
+  - url: https://en.whu.edu.cn/llms.txt
+    status: 404
+  detail: >-
+    No developer portal, no key request form, and no terms governing programmatic access were
+    found on either the Chinese or English institutional site.
