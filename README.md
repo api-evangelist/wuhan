@@ -1,4 +1,4 @@
-# Wuhan University (wuhan)
+# Wuhan University
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,53 +64,122 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Wuhan University (WHU), founded in 1893 in Wuhan, Hubei, China, is one of China's oldest and most prestigious comprehensive research universities, ranked #194 in the QS World University Rankings 2025. This repository catalogs its public developer/API footprint as an APIs.json provider profile. At the time of review, WHU publishes no centralized, publicly documented developer portal or API; discoverable developer activity is limited to research-group source-code repositories on GitHub.
+Wuhan University (武汉大学, WHU), founded in 1893 in Wuhan, Hubei, is a comprehensive public research university under China's Ministry of Education, a Double First-Class and former Project 985 institution, and is strongest in surveying, remote sensing, geoinformatics and GNSS. It operates no public developer portal, no open data portal and no documented public API: api., data., open. and developer. under whu.edu.cn do not resolve, /.well-known/apis.json, llms.txt, security.txt, robots.txt and sitemap.xml all return 404 on both the Chinese and English sites, and no OpenAPI, AsyncAPI or GraphQL contract exists anywhere in this profile. What it does operate, on its own CERNET address space, is an identity estate and a bulk research-data archive. Wuhan University runs a Shibboleth SAML 2.0 identity provider registered in CARSI, China's national research-and-education federation and a production eduGAIN member, and a campus CAS single-sign-on server that publishes a live OpenID Connect discovery document — the only conforming, self-describing, machine-readable contract WHU serves to the anonymous public, and it is the SSO product's shape rather than WHU engineering. It also operates one of the IGS Global Data Centers: the International GNSS Service's own data-access page names Wuhan University and links ftp://igs.gnsswhu.cn/, an anonymously listable archive of GPS, BDS, MGEX, high-rate and IERS products. Library discovery is an Ex Libris Aleph tenancy on a WHU host, and the registrar system is behind campus SSO. The institution's only evidenced education-regime conformance is SAML and Shibboleth; it is not a DataCite or Crossref depositing member, and no institution-operated OAI-PMH endpoint was found.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/wuhan/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=wuhan-api-evangelist&utm_content=repo
+**Areas:** Education · Higher Education · University · Research · China · Identity Federation · SSO · Research Data · GNSS · Library · Open Source
 
-## Type
+## Wuhan University on APIs.io
 
-- Index / Consumer / 3rd-Party
+Everything profiled for Wuhan University is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/wuhan/](https://apis.io/providers/wuhan/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (8)
 
-- Education
-- Higher Education
-- University
-- Research
-- China
-- Open Source
+- [Wuhan University Shibboleth Identity Provider (SAML 2.0)](https://apis.io/apis/wuhan/shibboleth-idp/) — WHU's federated login, published as a SAML 2.0 EntityDescriptor at https://idp.whu.edu.cn/idp/shibboleth (HTTP 200, application/xml, 14,864 bytes). Declares…
+- [Wuhan University Campus Single Sign-On (CAS / OpenID Connect / SAML)](https://apis.io/apis/wuhan/cas-sso/) — The campus authentication server at cas.whu.edu.cn/authserver, which every institutional application redirects into, running the Wisedu CAS distribution. It…
+- [IGS Data Center at Wuhan University (GNSS archive)](https://apis.io/apis/wuhan/igs-data-center/) — One of the International GNSS Service's Global Data Centers, operated by Wuhan University's GNSS Research Center. The archive is anonymously listable over…
+- [CARSI membership (CERNET Authentication and Resource Sharing Infrastructure)](https://apis.io/apis/wuhan/carsi/) — Wuhan University is a registered identity provider in CARSI, China's national research-and-education identity federation, operated from Peking University…
+- [ROR registry entry (Research Organization Registry)](https://apis.io/apis/wuhan/ror/) — Wuhan University is registered in ROR as https://ror.org/033vjfk17 (active, established 1893), cross-walked to GRID grid.49470.3e, ISNI 0000 0001 2331 6153,…
+- [Wuhan University Library catalog (Ex Libris Aleph tenant)](https://apis.io/apis/wuhan/opac/) — The library's online public access catalog at opac.lib.whu.edu.cn, running Ex Libris Aleph — the root document is Aleph's own session bootstrap ("Aleph main…
+- [Wuhan University academic affairs / registrar system (SSO-gated)](https://apis.io/apis/wuhan/jwgl/) — The institutional teaching-administration and course-registration system. jwgl.whu.edu.cn is live and redirects unauthenticated callers to…
+- [Geomatics and Information Science of Wuhan University (journal platform)](https://apis.io/apis/wuhan/journal-platform/) — WHU's own journal publishing platform at ch.whu.edu.cn (115.156.123.29, WHR-CERNET), hosting 武汉大学学报·信息科学版 / Geomatics and Information Science of Wuhan…
 
-## APIs
+### Published properties
 
-- **No Public Documented API** — WHU publishes no centralized developer portal or documented API. Public developer activity is limited to research-group code repositories such as the Information Retrieval Group (https://github.com/WHUIR). Reference: https://en.whu.edu.cn
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Plans / Rate Limits / FinOps
+#### JSON-LD (1)
 
-- Plans: [plans/wuhan-plans-pricing.yml](plans/wuhan-plans-pricing.yml)
-- Rate Limits: [rate-limits/wuhan-rate-limits.yml](rate-limits/wuhan-rate-limits.yml)
-- FinOps: [finops/wuhan-finops.yml](finops/wuhan-finops.yml)
+Linked-data contexts for the provider's vocabulary.
 
-## Timestamps
+- [Wuhan Context](https://apis.io/jsonld/wuhan/wuhan-context/)
 
-- Created: 2026-06-03
-- Modified: 2026-06-03
+#### Security (2)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- Website: https://en.whu.edu.cn
-- GitHub: https://github.com/WHUIR
-- LinkedIn: https://www.linkedin.com/school/wuhan-university/
-- Twitter/X: https://x.com/WHU_1893
-- Review: [review.yml](review.yml)
+- [Wuhan Authentication](https://apis.io/security/wuhan/wuhan-authentication/)
+- [Wuhan Domain Security](https://apis.io/security/wuhan/wuhan-domain-security/)
 
-## Notes
+#### OAuth scopes (1)
 
-- Verification caveats: The official website (en.whu.edu.cn) returned HTTP 200 and is informational only — no developer portal, API documentation, or open-data links were found. No institutional API endpoints, base URLs, or authentication flows could be confirmed, and none were fabricated.
-- There is no university-wide official GitHub organization; multiple research-group orgs exist (WHUIR, WHUFT, WHU-USI3DV) hosting academic research code rather than institutional service APIs.
-- The Wuhan University Library English site (en.lib.whu.edu.cn) did not resolve during review; no public OAI-PMH or discovery API endpoint could be confirmed.
+The permissions the API asks for.
 
-## Maintainers
+- [Wuhan Scopes](https://apis.io/scopes/wuhan/wuhan-scopes/)
 
-- Kin Lane — kin@apievangelist.com
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Wuhan Plans Pricing](https://apis.io/plans/wuhan/wuhan-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Wuhan Rate Limits](https://apis.io/rate-limits/wuhan/wuhan-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Wuhan Finops](https://apis.io/finops/wuhan/wuhan-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://en.whu.edu.cn)
+- [GitHub](https://github.com/WHUIR)
+
+## API Evangelist rating
+
+**Kin Score 18.3** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 14.3 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 21.4 |
+| Access clarity | 5.3 |
+
+**Agent readiness 3.1** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 26.5** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/wuhan/](https://apis.io/providers/wuhan/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Wuhan University: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/wuhan/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
